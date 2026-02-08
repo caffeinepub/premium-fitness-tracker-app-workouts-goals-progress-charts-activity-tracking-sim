@@ -1,0 +1,155 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-sign-in-and-ensure-all-user-data-workouts-activities-meals-goals-profile-is-scoped-to-the-authenticated-principal-so-multiple-users-can-use-the-app-independently",
+      "featureTitle": "Implement Internet Identity sign-in and ensure all user data (workouts, activities, meals, goals, profile) is scoped to the authenticated principal so multiple users can use the app independently.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/hooks/useCurrentUserProfile.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-meal-and-calorie-tracking-with-photo-upload-in-the-ui-and-implement-a-simulated-ai-nutrition-estimate-flow-user-uploads-a-food-photo-the-app-generates-an-estimated-nutrition-breakdown-calories-macros-without-calling-external-ai-services-and-the-user-can-edit-confirm-the-final-values-before-saving",
+      "featureTitle": "Add meal and calorie tracking with photo upload in the UI, and implement a simulated 'AI nutrition estimate' flow: user uploads a food photo, the app generates an estimated nutrition breakdown (calories + macros) without calling external AI services, and the user can edit/confirm the final values before saving.",
+      "files": [
+        "frontend/src/pages/NutritionPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-activity-steps-tracking-as-a-simulation-since-real-gps-device-sensors-are-not-supported-provide-start-stop-activity-sessions-walk-run-cycle-duration-tracking-and-generate-plausible-distance-steps-route-like-summary-data-also-include-manual-entry-as-a-fallback",
+      "featureTitle": "Implement activity/steps tracking as a simulation (since real GPS/device sensors are not supported): provide start/stop activity sessions (walk/run/cycle), duration tracking, and generate plausible distance/steps/route-like summary data; also include manual entry as a fallback.",
+      "files": [
+        "frontend/src/pages/ActivityPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-progress-analytics-screens-with-charts-for-workouts-activity-calories-macros-and-goals-over-time-daily-weekly-monthly-provide-filters-date-range-metric-selection-and-summary-kpis",
+      "featureTitle": "Build progress analytics screens with charts for workouts, activity, calories/macros, and goals over time (daily/weekly/monthly). Provide filters (date range, metric selection) and summary KPIs.",
+      "files": [
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-the-core-premium-ui-information-architecture-and-navigation-dashboard-workouts-nutrition-activity-goals-and-settings-pages-use-react-query-for-data-fetching-caching-and-ensure-responsive-layouts-for-mobile-and-desktop",
+      "featureTitle": "Create the core premium UI information architecture and navigation: Dashboard, Workouts, Nutrition, Activity, Goals, and Settings pages. Use React Query for data fetching/caching, and ensure responsive layouts for mobile and desktop.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/components/layout/PrimaryNav.tsx",
+        "frontend/src/pages/GoalsPage.tsx",
+        "frontend/src/pages/WorkoutsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-cohesive-premium-visual-theme-consistent-across-the-app-high-end-100k-budget-feel-choose-a-distinctive-style-not-blue-purple-with-a-refined-color-palette-modern-typography-consistent-spacing-and-subtle-motion-hover-press-transitions-page-section-reveals-without-harming-performance",
+      "featureTitle": "Apply a cohesive premium visual theme consistent across the app (high-end '100k budget' feel): choose a distinctive style (not blue/purple) with a refined color palette, modern typography, consistent spacing, and subtle motion (hover/press transitions, page section reveals) without harming performance.",
+      "files": [
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-settings-profile-features-user-profile-basics-display-name-units-metric-imperial-and-data-management-actions-export-data-to-json-and-delete-all-user-data-with-confirmation",
+      "featureTitle": "Add settings/profile features: user profile basics (display name, units: metric/imperial), and data management actions (export data to JSON and delete all user data with confirmation).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/lib/units.ts",
+        "frontend/src/pages/SettingsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

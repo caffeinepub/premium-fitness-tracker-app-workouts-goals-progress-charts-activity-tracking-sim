@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Fitness tracker app with premium, high-end UI (\"100k budget\" feel) including workout logging, step/GPS-based activity tracking, progress charts, goals, and an AI-powered food photo calorie/nutrition estimator.",
+  "architectural_notes": [
+    "Budget guidance: UI/UX should look premium/polished consistent with a ~$100k app budget.",
+    "Requires AI-based image analysis for food photo calorie estimation.",
+    "Requires device GPS/sensors integration for automatic step/activity tracking."
+  ],
+  "known_issues": [
+    "Prior build attempt failed with: \"AI was unable to fulfill your request. Consider simplifying or rewording your prompt.\""
+  ],
+  "isFixRequest": true,
+  "imageRequirements": "## Required Images\n- Premium app icon: minimalist fitness ring + subtle lightning accent, dark background (app-icon.dim_512x512.png)\n- Dashboard hero illustration: sleek fitness dashboard UI on a glassmorphism card with abstract motion lines, dark theme, neon accent (hero-illustration.dim_1600x900.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-and-ensure-all-user-data-workouts-activities-meals-goals-profile-is-scoped-to-the-authenticated-principal-so-multiple-users-can-use-the-app-independently",
+      "title": "Implement Internet Identity sign-in and ensure all user data (workouts, activities, meals, goals, profile) is scoped to the authenticated principal so multiple users can use the app independently.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-meal-and-calorie-tracking-with-photo-upload-in-the-ui-and-implement-a-simulated-ai-nutrition-estimate-flow-user-uploads-a-food-photo-the-app-generates-an-estimated-nutrition-breakdown-calories-macros-without-calling-external-ai-services-and-the-user-can-edit-confirm-the-final-values-before-saving",
+      "title": "Add meal and calorie tracking with photo upload in the UI, and implement a simulated 'AI nutrition estimate' flow: user uploads a food photo, the app generates an estimated nutrition breakdown (calories + macros) without calling external AI services, and the user can edit/confirm the final values before saving.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-activity-steps-tracking-as-a-simulation-since-real-gps-device-sensors-are-not-supported-provide-start-stop-activity-sessions-walk-run-cycle-duration-tracking-and-generate-plausible-distance-steps-route-like-summary-data-also-include-manual-entry-as-a-fallback",
+      "title": "Implement activity/steps tracking as a simulation (since real GPS/device sensors are not supported): provide start/stop activity sessions (walk/run/cycle), duration tracking, and generate plausible distance/steps/route-like summary data; also include manual entry as a fallback.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-progress-analytics-screens-with-charts-for-workouts-activity-calories-macros-and-goals-over-time-daily-weekly-monthly-provide-filters-date-range-metric-selection-and-summary-kpis",
+      "title": "Build progress analytics screens with charts for workouts, activity, calories/macros, and goals over time (daily/weekly/monthly). Provide filters (date range, metric selection) and summary KPIs.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-the-core-premium-ui-information-architecture-and-navigation-dashboard-workouts-nutrition-activity-goals-and-settings-pages-use-react-query-for-data-fetching-caching-and-ensure-responsive-layouts-for-mobile-and-desktop",
+      "title": "Create the core premium UI information architecture and navigation: Dashboard, Workouts, Nutrition, Activity, Goals, and Settings pages. Use React Query for data fetching/caching, and ensure responsive layouts for mobile and desktop.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-cohesive-premium-visual-theme-consistent-across-the-app-high-end-100k-budget-feel-choose-a-distinctive-style-not-blue-purple-with-a-refined-color-palette-modern-typography-consistent-spacing-and-subtle-motion-hover-press-transitions-page-section-reveals-without-harming-performance",
+      "title": "Apply a cohesive premium visual theme consistent across the app (high-end '100k budget' feel): choose a distinctive style (not blue/purple) with a refined color palette, modern typography, consistent spacing, and subtle motion (hover/press transitions, page section reveals) without harming performance.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-settings-profile-features-user-profile-basics-display-name-units-metric-imperial-and-data-management-actions-export-data-to-json-and-delete-all-user-data-with-confirmation",
+      "title": "Add settings/profile features: user profile basics (display name, units: metric/imperial), and data management actions (export data to JSON and delete all user data with confirmation).",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Workout logging (exercises, sets/reps, sessions)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Step/activity tracking using GPS/sensors (automatic tracking)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Progress analytics and charts (history, trends)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Goals system (set goals, track progress)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Food calorie tracker with AI photo-based calorie/nutrition detection",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Premium, polished UI/UX with modern visuals and animations (\"100k budget\" feel)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Create backend data models and CRUD APIs for workout tracking: exercises, workout sessions (date/time, duration, notes), and per-exercise sets (weight, reps, optional RPE). Persist data across canister upgrades using stable storage patterns.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Create backend data models and CRUD APIs for goals: allow creating goals with type (e.g., weekly workouts, daily steps, weight target, calorie target), target value, timeframe (daily/weekly/monthly/custom date range), and progress computation from stored data where applicable.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Premium fitness tracker app (workouts, goals, progress charts, activity tracking simulation, food photo calorie estimator simulation)",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

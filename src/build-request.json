@@ -1,0 +1,224 @@
+{
+  "kind": "build_request",
+  "title": "Premium fitness tracker app (workouts, goals, progress charts, activity tracking simulation, food photo calorie estimator simulation)",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity sign-in and ensure all user data (workouts, activities, meals, goals, profile) is scoped to the authenticated principal so multiple users can use the app independently.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-4",
+          "msg-8",
+          "msg-10",
+          "msg-11"
+        ],
+        "quotes": [
+          "Create a app for fitness tracker",
+          "Yes include all of that",
+          "Make the best one",
+          "3 yes",
+          "Yes start"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in/out with Internet Identity from the UI.",
+        "All created/updated/read entities are associated with the current user principal and are not visible to other principals.",
+        "When signed out, the app does not show another user’s private data and prompts to sign in for saving/syncing."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create backend data models and CRUD APIs for workout tracking: exercises, workout sessions (date/time, duration, notes), and per-exercise sets (weight, reps, optional RPE). Persist data across canister upgrades using stable storage patterns.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-3"
+        ],
+        "quotes": [
+          "Create a app for fitness tracker",
+          "include all of that"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes create/read/update/delete functions for workout sessions and their sets.",
+        "Workout data persists after refresh and is returned correctly for the signed-in user.",
+        "Basic validation exists (e.g., no negative reps/weight; session must have a date)."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Create backend data models and CRUD APIs for goals: allow creating goals with type (e.g., weekly workouts, daily steps, weight target, calorie target), target value, timeframe (daily/weekly/monthly/custom date range), and progress computation from stored data where applicable.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "there should be ... goals"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can create, list, update, and archive goals.",
+        "Backend returns goal progress values suitable for UI display (percentage and current vs target).",
+        "Goals are scoped per user and persist across reloads."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add meal and calorie tracking with photo upload in the UI, and implement a simulated 'AI nutrition estimate' flow: user uploads a food photo, the app generates an estimated nutrition breakdown (calories + macros) without calling external AI services, and the user can edit/confirm the final values before saving.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-9"
+        ],
+        "quotes": [
+          "there should be food calories tracker u could upload the photo of the food and the app tell the detail.",
+          "Use ai to decided."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can add a meal with: photo (optional), timestamp, items/notes, calories, protein/carbs/fat.",
+        "After uploading a photo, the UI shows an auto-filled estimate labeled clearly as an estimate and allows manual override before saving.",
+        "No external AI/LLM services are used; the estimate is produced locally (frontend) or via on-canister logic.",
+        "Meal history can be viewed and edited; data is persisted and scoped to the user."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement activity/steps tracking as a simulation (since real GPS/device sensors are not supported): provide start/stop activity sessions (walk/run/cycle), duration tracking, and generate plausible distance/steps/route-like summary data; also include manual entry as a fallback.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-9"
+        ],
+        "quotes": [
+          "use GPS or anything."
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can start and stop an activity session; the session is saved with start/end time and summary metrics (steps, distance, calories estimate).",
+        "UI clearly indicates tracking is simulated and provides manual adjustment/entry options.",
+        "Activity history can be viewed and sessions can be deleted/edited; data persists per user."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Build progress analytics screens with charts for workouts, activity, calories/macros, and goals over time (daily/weekly/monthly). Provide filters (date range, metric selection) and summary KPIs.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "progress charts"
+        ]
+      },
+      "acceptanceCriteria": [
+        "At least one dashboard page shows charts for: workouts over time, steps/distance over time, calories/macros over time, and goal progress.",
+        "Charts update when new workouts/meals/activities are added.",
+        "User can change the date range and see recalculated summaries and charts."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Create the core premium UI information architecture and navigation: Dashboard, Workouts, Nutrition, Activity, Goals, and Settings pages. Use React Query for data fetching/caching, and ensure responsive layouts for mobile and desktop.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-10"
+        ],
+        "quotes": [
+          "Create a app for fitness tracker",
+          "3 yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Top-level navigation exists to reach all core pages.",
+        "All pages are responsive (mobile-first) and usable on small screens.",
+        "React Query is used for server state and invalidation after mutations (e.g., adding a workout refreshes dashboards)."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Apply a cohesive premium visual theme consistent across the app (high-end '100k budget' feel): choose a distinctive style (not blue/purple) with a refined color palette, modern typography, consistent spacing, and subtle motion (hover/press transitions, page section reveals) without harming performance.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-10"
+        ],
+        "quotes": [
+          "the app should look like it was made with 100k budget",
+          "3 yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A consistent theme is applied across all pages (colors, type scale, components, spacing).",
+        "Animations are subtle and consistent (e.g., button interactions, card hover, section transitions) and do not block interaction.",
+        "The UI looks polished: clear hierarchy, readable metrics, and consistent component styling."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Add settings/profile features: user profile basics (display name, units: metric/imperial), and data management actions (export data to JSON and delete all user data with confirmation).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-3"
+        ],
+        "quotes": [
+          "fitness tracker",
+          "include all of that"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can set display name and preferred units; units affect distance/weight display formatting across the UI.",
+        "User can export their workouts/meals/activities/goals as a downloadable JSON file.",
+        "User can delete all their data with a confirmation step; after deletion dashboards show empty state."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not use external AI/LLM services for food photo nutrition detection; implement a simulated estimator and allow manual override.",
+    "Do not use real GPS or device sensor APIs for step tracking; implement simulated tracking and/or manual entry.",
+    "Backend must remain a single Motoko actor (all logic in backend/main.mo); only add migration.mo if upgrading existing stable state.",
+    "Do not modify files under frontend immutable paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui (compose them instead).",
+    "Use English for all user-facing text."
+  ],
+  "nonGoals": [
+    "Integrating third-party authentication providers other than Internet Identity.",
+    "True computer-vision food recognition or real nutrition extraction from images.",
+    "Real GPS maps, routes, geolocation, or sensor-based pedometer integration.",
+    "Real-time features (websockets/live sharing) or social/community feeds unless explicitly requested later."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Premium app icon: minimalist fitness ring + subtle lightning accent, dark background (app-icon.dim_512x512.png)",
+      "Dashboard hero illustration: sleek fitness dashboard UI on a glassmorphism card with abstract motion lines, dark theme, neon accent (hero-illustration.dim_1600x900.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [
+      "Build a premium fitness tracker app with workout logging, simulated activity/steps tracking, progress charts, goals, and a simulated AI-style food photo calorie/macro estimator."
+    ],
+    "goalsToRemove": [],
+    "preferencesToAdd": [
+      "Premium, high-end UI/UX with subtle animations; English UI copy."
+    ],
+    "preferencesToRemove": [],
+    "miscToAdd": [
+      "Cannot use external AI services or real GPS/sensors; features must be simulated or manual where needed."
+    ],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

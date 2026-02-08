@@ -1,0 +1,19 @@
+{
+  "frontend/src/App.tsx": "Main application component with TanStack Router setup, Internet Identity authentication gating, profile setup flow, and routing to all core pages (Dashboard, Workouts, Nutrition, Activity, Goals, Settings).",
+  "frontend/src/hooks/useCurrentUserProfile.ts": "React Query hook for fetching the current user's profile with proper actor dependency handling to prevent modal flash during profile setup.",
+  "frontend/src/hooks/useQueries.ts": "Centralized React Query hooks for all backend operations (workouts, goals, meals, activities, profile, data export/delete) with proper cache invalidation.",
+  "frontend/src/components/auth/LoginButton.tsx": "Login/logout button component using Internet Identity with query cache clearing on logout.",
+  "frontend/src/components/auth/ProfileSetupDialog.tsx": "First-time profile setup dialog for capturing display name and unit preferences (metric/imperial), removed invalid hideClose prop.",
+  "frontend/src/components/layout/AppLayout.tsx": "Main layout wrapper providing responsive navigation and content container for all authenticated pages.",
+  "frontend/src/components/layout/PrimaryNav.tsx": "Responsive navigation component with desktop sidebar and mobile bottom navigation, showing current user name and active route highlighting.",
+  "frontend/src/pages/DashboardPage.tsx": "Dashboard overview page displaying KPI cards and recent activity/workout summaries with responsive grid layout; fixed TypeScript type checking for units variant.",
+  "frontend/src/pages/WorkoutsPage.tsx": "Workout logging page with exercise/set tracking, duration, notes, and workout history display with delete functionality; fixed TypeScript type checking for units variant.",
+  "frontend/src/pages/NutritionPage.tsx": "Nutrition tracking page with photo upload, simulated AI nutrition estimation, manual override, and meal history grid.",
+  "frontend/src/pages/ActivityPage.tsx": "Activity tracking page with simulated GPS tracking (walk/run/cycle), live timer, and activity history with metrics; fixed TypeScript type checking for units variant.",
+  "frontend/src/pages/GoalsPage.tsx": "Goals management page for creating, tracking, and deleting fitness goals with progress visualization.",
+  "frontend/src/pages/SettingsPage.tsx": "Settings page for profile management, unit preferences, data export (JSON), and delete all data with confirmation; fixed TypeScript type checking for units variant.",
+  "frontend/src/lib/units.ts": "Unit conversion and formatting utilities for distance (km/miles) and weight (kg/lbs) based on user preferences.",
+  "frontend/src/lib/nutritionEstimator.ts": "Deterministic, local-only simulated nutrition estimator that generates plausible calorie and macro estimates from file metadata without external AI services.",
+  "frontend/src/index.css": "Global styles with OKLCH-based dark theme color system, custom animations, and premium design tokens.",
+  "frontend/tailwind.config.js": "Tailwind configuration with extended color palette, premium shadow utilities, and animation support."
+}

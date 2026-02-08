@@ -1,0 +1,260 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Premium Fitness Tracker (II auth, workouts, nutrition, activity simulation, goals, analytics)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity sign-in/out UI, authenticated app gating, and user-scoped data access patterns (cache clearing + profile setup).",
+      "acceptanceCriteria": [
+        "User can sign in/out with Internet Identity from the UI.",
+        "All created/updated/read entities are associated with the current user principal and are not visible to other principals.",
+        "When signed out, the app does not show another user’s private data and prompts to sign in for saving/syncing."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the top-level app shell that gates all private pages behind Internet Identity auth (using the existing useInternetIdentity hook) and shows a signed-out screen prompting login. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Implement a login/logout button using useInternetIdentity and React Query cache clearing on logout (per the selected authorization component guidance). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "create",
+          "description": "Add first-login profile setup (display name + units) that queries getCallerUserProfile and calls saveCallerUserProfile, avoiding modal flash by respecting actor readiness/loading state. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Create a React Query hook to fetch the current user's profile (getCallerUserProfile) and expose derived state for gating ProfileSetupDialog (auth + actor dependency). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/lib/authErrors.ts",
+          "operation": "create",
+          "description": "Add a small helper to normalize/label authorization failures from backend traps into user-friendly UI messages and to trigger cache clearing when auth becomes invalid. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Build Nutrition UI with optional food photo upload and a simulated AI nutrition estimate flow with editable confirmation before saving; show meal history with edit/delete.",
+      "acceptanceCriteria": [
+        "User can add a meal with: photo (optional), timestamp, items/notes, calories, protein/carbs/fat.",
+        "After uploading a photo, the UI shows an auto-filled estimate labeled clearly as an estimate and allows manual override before saving.",
+        "No external AI/LLM services are used; the estimate is produced locally (frontend) or via on-canister logic.",
+        "Meal history can be viewed and edited; data is persisted and scoped to the user."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/NutritionPage.tsx",
+          "operation": "create",
+          "description": "Create the Nutrition page including meal list, empty states, add/edit meal flows, and clear labeling that the nutrition output is an estimate. Use shadcn-ui composed components for premium form + list UI (do not modify components under frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/nutrition/MealEditor.tsx",
+          "operation": "create",
+          "description": "Build a meal editor component supporting optional photo selection, notes/items, timestamp, and editable calories/macros before save; wire to saveMeal and deleteMeal via React Query mutations. Use the blob-storage ExternalBlob class for photo handling (fromBytes + getDirectURL for display). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/nutrition/NutritionEstimator.ts",
+          "operation": "create",
+          "description": "Implement a deterministic, local-only simulated estimator that produces plausible calories/macros from basic inputs (and optional photo bytes metadata) without calling any external AI/LLM services; return values clearly marked as estimate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useMeals.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for fetching meals and performing save/delete mutations with proper invalidation for dashboard/analytics updates. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement simulated activity tracking UI (walk/run/cycle) with start/stop session timer, plausible metrics generation, and manual entry; view/edit/delete history.",
+      "acceptanceCriteria": [
+        "User can start and stop an activity session; the session is saved with start/end time and summary metrics (steps, distance, calories estimate).",
+        "UI clearly indicates tracking is simulated and provides manual adjustment/entry options.",
+        "Activity history can be viewed and sessions can be deleted/edited; data persists per user."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ActivityPage.tsx",
+          "operation": "create",
+          "description": "Create the Activity page with start/stop controls, visible running timer, simulated tracking disclaimer, manual adjustment inputs, and a history list. Use shadcn-ui composed components for controls and cards. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/activity/ActivityTracker.tsx",
+          "operation": "create",
+          "description": "Implement the simulated tracking session UI logic (startActivity/endActivity) with plausible metric generation (steps/distance/calories) and manual override prior to saving. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/activity/ActivityHistory.tsx",
+          "operation": "create",
+          "description": "Render activity history with edit/delete affordances (calling backend mutations) and clear formatting of units and time ranges. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useActivities.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for getAllActivities plus start/end/update/delete actions (as supported by backendInterface) with cache invalidation for analytics and dashboard. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add progress analytics dashboard with charts, filters (date range/metric), and summary KPIs that update after mutations.",
+      "acceptanceCriteria": [
+        "At least one dashboard page shows charts for: workouts over time, steps/distance over time, calories/macros over time, and goal progress.",
+        "Charts update when new workouts/meals/activities are added.",
+        "User can change the date range and see recalculated summaries and charts."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Create a dashboard page that shows KPI tiles plus charts for workouts/activity/nutrition/goals with date range + metric filters; recompute summaries client-side from React Query-fetched data. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/analytics/AnalyticsFilters.tsx",
+          "operation": "create",
+          "description": "Add reusable date range + metric selection controls used by the dashboard charts and summaries. Use shadcn-ui composed components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/analytics/KpiStrip.tsx",
+          "operation": "create",
+          "description": "Add a KPI strip component (e.g., workouts/week, total steps, avg calories, macro split, active goals) that updates when queries invalidate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/charts/LineChart.tsx",
+          "operation": "create",
+          "description": "Implement a lightweight, dependency-free line chart component (SVG) suitable for time series metrics (workouts, steps, calories/macros) and responsive layouts. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/charts/StackedBars.tsx",
+          "operation": "create",
+          "description": "Implement a lightweight stacked bar chart (SVG) for macros over time (protein/carbs/fat) and weekly summaries. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/lib/analytics.ts",
+          "operation": "create",
+          "description": "Add data aggregation utilities to compute daily/weekly/monthly series and goal progress summaries from workouts/meals/activities/goals fetched via React Query. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Create core premium navigation and information architecture (Dashboard, Workouts, Nutrition, Activity, Goals, Settings) with React Query integration and responsive layouts.",
+      "acceptanceCriteria": [
+        "Top-level navigation exists to reach all core pages.",
+        "All pages are responsive (mobile-first) and usable on small screens.",
+        "React Query is used for server state and invalidation after mutations (e.g., adding a workout refreshes dashboards)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the full page layout and navigation to required top-level pages (Dashboard, Workouts, Nutrition, Activity, Goals, Settings) and ensure routes/views are not orphaned. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a responsive app layout (mobile bottom nav + desktop sidebar/topbar) to host all core pages. Use shadcn-ui composed components for navigation primitives. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/PrimaryNav.tsx",
+          "operation": "create",
+          "description": "Add the primary navigation component exposing links/tabs to all core pages and showing current user display name from profile. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/WorkoutsPage.tsx",
+          "operation": "create",
+          "description": "Create the Workouts page UI for listing and editing workout sessions/exercises/sets using React Query for fetching/mutations (saveWorkout/deleteWorkout). Use shadcn-ui composed components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/GoalsPage.tsx",
+          "operation": "create",
+          "description": "Create the Goals page UI for creating/editing/archiving goals and showing progress values returned by the backend; use React Query for caching/invalidation. Use shadcn-ui composed components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useWorkouts.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for workout list + save/delete mutations with invalidation to refresh dashboard/analytics. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useGoals.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for goals list + save/delete mutations and invalidate dashboard/analytics. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Apply a cohesive premium theme (non-blue/purple) with refined palette, typography, spacing, and subtle motion across the app.",
+      "acceptanceCriteria": [
+        "A consistent theme is applied across all pages (colors, type scale, components, spacing).",
+        "Animations are subtle and consistent (e.g., button interactions, card hover, section transitions) and do not block interaction.",
+        "The UI looks polished: clear hierarchy, readable metrics, and consistent component styling."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create global Tailwind + CSS variable theme definitions (dark, premium) using a distinctive non-blue/purple palette (e.g., charcoal + warm copper + neon-lime accent), consistent radii, and tokenized chart colors; include subtle transition defaults. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Tune Tailwind theme extensions to support the premium palette/typography and consistent motion (using existing tailwindcss-animate plugin) while keeping performance-friendly animations. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/ui/PremiumCard.tsx",
+          "operation": "create",
+          "description": "Compose (do not modify) shadcn-ui primitives into a premium card wrapper with consistent padding, borders, hover/press transitions, and optional header slots for metrics. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/ui/SectionReveal.tsx",
+          "operation": "create",
+          "description": "Add a lightweight section reveal/entrance wrapper (subtle opacity/translate transitions) to apply consistently across pages without blocking interactions. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Add Settings/Profile features: display name + unit preference, export data to JSON download, and delete all user data with confirmation; propagate units formatting across UI.",
+      "acceptanceCriteria": [
+        "User can set display name and preferred units; units affect distance/weight display formatting across the UI.",
+        "User can export their workouts/meals/activities/goals as a downloadable JSON file.",
+        "User can delete all their data with a confirmation step; after deletion dashboards show empty state."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/SettingsPage.tsx",
+          "operation": "create",
+          "description": "Create Settings page with profile editing (display name + units), export JSON action (exportUserData -> downloadable file), and delete-all action (deleteAllUserData) with strong confirmation UI. Use shadcn-ui composed components for dialogs/forms. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/settings/DeleteAllDataDialog.tsx",
+          "operation": "create",
+          "description": "Add a confirmation dialog requiring explicit acknowledgement before calling deleteAllUserData; on success, clear React Query caches and show empty states. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/lib/exportJson.ts",
+          "operation": "create",
+          "description": "Implement a small helper to convert exported user data into a downloadable JSON file with a timestamped filename and English labels. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/lib/units.ts",
+          "operation": "create",
+          "description": "Add unit conversion/formatting utilities (metric/imperial for distance and weight) and ensure all relevant pages/charts use them by consuming the current user profile units. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire units preference into the global app context (derived from current user profile) so all pages can format values consistently without duplicating logic. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

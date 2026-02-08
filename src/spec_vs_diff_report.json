@@ -1,0 +1,137 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T15:56:21.369Z",
+  "summary": "Diff adds a Motoko backend actor with per-principal user maps plus a new React/TanStack Router + React Query frontend with pages for Dashboard/Workouts/Nutrition/Activity/Goals/Settings, simulated nutrition estimation, and simulated activity tracking. Several BuildRequest requirements are only partially evidenced (notably stable persistence, full CRUD/edit flows, goal progress computation, analytics charts/filters, and required image assets). Some extra features (access-control admin secret init, extra nutrition fields, blob-storage mixins) appear beyond the request.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Persist workout data across canister upgrades using stable storage patterns; expose full CRUD with basic validation.",
+      "reason": "backend/main.mo shows in-memory `let users = Map.empty<Principal, User.T>()` and workout types, but the diff excerpt provides no evidence of stable variables, preupgrade/postupgrade hooks, or explicit validation/CRUD coverage for sessions/sets (only frontend calls like `getWorkouts/saveWorkout/deleteWorkout` are visible).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Goals: create/list/update/archive; compute progress from stored data and return percentage/current-vs-target; persist per-user across reloads.",
+      "reason": "Goals UI supports create/delete, but the diff shows goals having a stored `progress` field and the UI calculating percentage from that field, not evidence of backend progress computation from workouts/meals/activities; no evidence of goal archiving or update flows; no evidence of stable persistence across upgrades.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/GoalsPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Meals: allow photo optional; include timestamp and items/notes; meal history can be viewed and edited; persisted and scoped per user.",
+      "reason": "NutritionPage requires a photo to save (`if (!photoFile) ...`), and the backend Meal type shown includes nutrition fields and `photo` but no timestamp or notes/items fields in the excerpt; no evidence of edit/update meal flow (only save/delete shown).",
+      "evidence": [
+        "frontend/src/pages/NutritionPage.tsx",
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Activity simulation must support start/stop, saved start/end with metrics; UI must indicate simulation and provide manual adjustment/entry; activity history can be edited/deleted; persists per-user.",
+      "reason": "ActivityPage shows simulated start/stop and generated metrics; however, the excerpt does not show manual entry/adjustment UI, nor edit/delete of saved sessions (truncated before history section; no clear evidence of mutation hooks for delete/update). Persistence across upgrades is also not evidenced.",
+      "evidence": [
+        "frontend/src/pages/ActivityPage.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Progress analytics screens with charts (workouts/activity/nutrition/goals over time) + filters (date range/metric selection) and summary KPIs.",
+      "reason": "DashboardPage shows KPI cards/summary stats, but no evidence of chart components, time-series aggregation views, or date-range/metric filters in the provided excerpts.",
+      "evidence": [
+        "frontend/src/pages/DashboardPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Ensure responsive layouts and React Query invalidation after mutations across the app.",
+      "reason": "React Query usage and invalidation is evidenced in useQueries, and navigation/layout appears responsive; however, the diff is truncated for several hooks and pages, so full coverage across all entities/pages cannot be confirmed from the excerpt alone.",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/components/layout/PrimaryNav.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Settings: export all user data to downloadable JSON; delete all user data with confirmation; units affect formatting across UI.",
+      "reason": "SettingsPage shows export/download and delete-all UI with confirmation, but the backend excerpt does not show corresponding `export` and `deleteAll` APIs or implementation; units formatting is evidenced in some places (Dashboard/Workouts/Activity), but complete app-wide formatting cannot be confirmed from excerpts.",
+      "evidence": [
+        "frontend/src/pages/SettingsPage.tsx",
+        "backend/main.mo",
+        "frontend/src/lib/units.ts"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Access-control initialization via secret URL parameter (`caffeineAdminToken`) and admin/user permission checks for profile endpoints.",
+      "reason": "BuildRequest did not ask for admin tokens/secret initialization or role-based access control beyond scoping data to the authenticated principal.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Blob storage mixin usage and `Storage.ExternalBlob` integration in the backend beyond simple meal photo handling requirements.",
+      "reason": "REQ-4 requires photo upload (optional) but does not request a specific blob-storage mixin framework; this appears as an additional architectural component.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Additional nutrition fields (fiber, sugar, sodium) included in estimator/UI/backend meal model.",
+      "reason": "REQ-4 only required calories and macros (protein/carbs/fat); extra micronutrients are not requested.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/lib/nutritionEstimator.ts",
+        "frontend/src/pages/NutritionPage.tsx"
+      ]
+    },
+    {
+      "description": "TanStack Router introduction for routing.",
+      "reason": "BuildRequest specified navigation/pages but did not require a specific router library; using TanStack Router is an unrequested implementation choice.",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupDialog.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/components/layout/PrimaryNav.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useCurrentUserProfile.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/nutritionEstimator.ts",
+    "frontend/src/lib/units.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/ActivityPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/GoalsPage.tsx",
+    "frontend/src/pages/NutritionPage.tsx",
+    "frontend/src/pages/SettingsPage.tsx",
+    "frontend/src/pages/WorkoutsPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}
